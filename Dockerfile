@@ -7,7 +7,7 @@ RUN apk add --no-cache git
 RUN git clone --branch dev https://github.com/loongclaw-ai/loongclaw.git .
 
 # 构建 release 版本
-RUN bash scripts/install.sh --source --onboard
+RUN cargo install --path crates/daemon
 
 # 运行阶段 - 最小化镜像
 FROM alpine:3.21
