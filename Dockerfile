@@ -2,7 +2,7 @@
 FROM rust:slim AS builder
 
 WORKDIR /build
-
+RUN apk add --no-cache git
 # 克隆 loongclaw 仓库
 RUN git clone --branch dev https://github.com/loongclaw-ai/loongclaw.git .
 
