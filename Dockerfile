@@ -11,9 +11,9 @@ RUN cargo install --path crates/daemon
 
 # 运行阶段 - 最小化镜像
 FROM alpine:3.21
-
+RUN apk add --no-cache ca-certificates libssl3
 # 从编译阶段复制二进制文件
-COPY --from=builder /usr/local/bin/loong /usr/local/bin/loong
+COPY --from=builder /root/.cargo/bin/loong /usr/local/bin/loong
 
 # 创建配置目录
 RUN mkdir -p /root/.loongclaw
