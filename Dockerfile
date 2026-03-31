@@ -1,7 +1,7 @@
 # 编译阶段
-FROM rust:slim AS builder
+FROM rust:alpine3.23 AS builder
 
-WORKDIR /build
+WORKDIR /src
 RUN apk add --no-cache git
 # 克隆 loongclaw 仓库
 RUN git clone --branch dev https://github.com/loongclaw-ai/loongclaw.git .
