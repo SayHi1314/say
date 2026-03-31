@@ -10,7 +10,7 @@ RUN git clone --branch dev https://github.com/loongclaw-ai/loongclaw.git .
 RUN bash scripts/install.sh --source --onboard
 
 # 运行阶段 - 最小化镜像
-FROM FROM alpine:3.21
+FROM alpine:3.21
 
 # 从编译阶段复制二进制文件
 COPY --from=builder /usr/local/bin/loong /usr/local/bin/loong
