@@ -1,6 +1,6 @@
 # 运行阶段 - 最小化镜像
 FROM ubuntu:22.04
-RUN apt install ca-certificates libssl3
+RUN apt update && apt install ca-certificates libssl3
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt install ./google-chrome-stable_current_amd64.deb
 RUN rm -rf google-chrome-stable_current_amd64.deb
