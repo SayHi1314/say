@@ -8,6 +8,7 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
 RUN rm -rf google-chrome-stable_current_amd64.deb
 RUN npm install -g openclaw@latest @slack/web-api @slack/bolt @aws-sdk/client-bedrock @buape/carbon
+RUN openclaw doctor --fix
 RUN rm -rf /var/lib/apt/lists/*
 # 创建配置目录
 RUN mkdir -p /root/.openclaw
