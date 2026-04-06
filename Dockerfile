@@ -1,6 +1,6 @@
 # 运行阶段 - 最小化镜像
 FROM ubuntu:22.04
-RUN apt update && apt install -y --no-install-recommends ca-certificates libssl3 curl wget
+RUN apt update && apt install -y --no-install-recommends ca-certificates libssl3 curl wget git
 # 安装 Node.js 24
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install -y --no-install-recommends nodejs 
