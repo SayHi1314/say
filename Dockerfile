@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 RUN apt update && apt install -y --no-install-recommends ca-certificates libssl3 wget
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt install ./google-chrome-stable_current_amd64.deb
+RUN apt install -y ./google-chrome-stable_current_amd64.deb
 RUN rm -rf google-chrome-stable_current_amd64.deb
 RUN npm install -g openclaw@latest
 # 创建配置目录
