@@ -8,4 +8,4 @@ RUN mkdir -p /root/.openclaw
 EXPOSE 18789
 
 # 设置默认命令
-CMD ["openclaw onboard --install-daemon"]
+CMD ["openclaw" ,"gateway" ,"run"]
