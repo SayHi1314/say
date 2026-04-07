@@ -16,4 +16,4 @@ RUN mkdir -p /root/.openclaw
 EXPOSE 18789
 
 # 设置默认命令
-CMD ["sh", "-c", "openclaw gateway run || sleep 300"]
+CMD ["sh", "-c", "trap 'exit 0' TERM INT; while true; do openclaw gateway run; sleep 30; done"]
