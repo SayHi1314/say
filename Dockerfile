@@ -16,4 +16,5 @@ RUN mkdir -p /root/.openclaw
 EXPOSE 18789
 
 # 设置默认命令
-CMD ["openclaw" ,"gateway" ,"run"]
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["exec openclaw gateway run"]
