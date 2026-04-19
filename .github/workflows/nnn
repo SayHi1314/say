@@ -1,0 +1,84 @@
+name: Build OpenIPC (Builder)
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to build (e.g. hi3518ev100_lite)'
+        required: true
+        default: 'hi3518ev100_lite'
+      variant:
+        description: 'Variant (lite or ultimate)'
+        required: true
+        default: 'lite'
+        type: choice
+        options:
+          - lite
+          - ultimate
+
+env:
+  TAG_NAME: latest
+
+jobs:
+  build:
+    name: Build \( {{ inputs.platform }}- \){{ inputs.variant }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Builder
+        uses: actions/checkout@v4
+        with:
+          repository: OpenIPC/builder
+          path: builder
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential bc bison flex libssl-dev python3 python3-pip unzip wget ccache git
+
+      - name: Setup ccache
+        uses: actions/cache@v4
+        with:
+          path: \~/.ccache
+          key: openipc-builder-\( {{ inputs.platform }}- \){{ github.run_id }}
+          restore-keys: openipc-builder-${{ inputs.platform }}-
+
+      - name: Build Firmware
+        working-directory: ./builder
+        run: |
+          echo "=== Starting build for \( {{ inputs.platform }}- \){{ inputs.variant }} ==="
+          
+          # 启用 ccache 加速
+          export USE_CCACHE=1
+          export CCACHE_DIR=\~/.ccache
+          ccache -z
+
+          ./builder.sh \( {{ inputs.platform }}_ \){{ inputs.variant }}
+
+          echo "=== Build completed ==="
+          ls -lh output/images/
+
+      - name: Prepare Artifacts
+        working-directory: ./builder
+        run: |
+          mkdir -p release
+          cp output/images/openipc*.tgz release/ 2>/dev/null || true
+          cp output/images/openipc*.bin release/ 2>/dev/null || true
+          cp output/images/uImage.* release/ 2>/dev/null || true
+          cp output/images/rootfs.squashfs.* release/ 2>/dev/null || true
+          
+          echo "Available files:"
+          ls -lh release/
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          files: |
+            builder/release/openipc*.tgz
+            builder/release/openipc*.bin
+            builder/release/uImage.*
+            builder/release/rootfs.squashfs.*
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
