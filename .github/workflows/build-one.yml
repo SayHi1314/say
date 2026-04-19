@@ -22,7 +22,7 @@ jobs:
       - name: Checkout official source
         uses: actions/checkout@v4
         with:
-          repository: OpenIPC/firmware
+          repository: SayHi1314/firmware
           ref: ${{ inputs.source_ref }}
 
       - name: Prepare firmware
