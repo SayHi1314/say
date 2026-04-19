@@ -29,6 +29,9 @@ jobs:
         run: |
           echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
           echo CACHE_DATE=$(date +%m) >> ${GITHUB_ENV}
+
+      - name: Configure RTL8188FU driver
+        run: |
           mkdir -p general
           grep -qxF 'BR2_PACKAGE_RTL8188FU_OPENIPC=y' general/openipc.fragment 2>/dev/null || \
             echo 'BR2_PACKAGE_RTL8188FU_OPENIPC=y' >> general/openipc.fragment
