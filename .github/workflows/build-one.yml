@@ -60,6 +60,11 @@ jobs:
             echo NANDFW=${NANDFW} >> ${GITHUB_ENV}
           fi
 
+          BINFW=$(find output/images -name 'openipc*.bin' -print -quit)
+          if [ -n "${BINFW}" ] && [ -e "${BINFW}" ]; then
+            echo BINFW=${BINFW} >> ${GITHUB_ENV}
+          fi
+
       - name: Upload firmware
         uses: softprops/action-gh-release@v2
         with:
@@ -67,3 +72,4 @@ jobs:
           files: |
             ${{env.NORFW}}
             ${{env.NANDFW}}
+            ${{env.BINFW}}
